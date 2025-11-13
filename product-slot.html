@@ -6,31 +6,41 @@
     <title>Fruit Slot Machine - Fruit Shop</title>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
+  <body data-i18n-title="brand.titleSlot">
     <header role="banner">
       <div class="header-center">
-        <a href="index.html" class="logo" aria-label="Go to homepage">
+        <a href="index.html" class="logo" data-i18n-attrs="aria-label:header.homeAria">
           <img
             src="img/fruit-shop-logo.png"
             class="logo-img"
-            alt="Fruit Shop Logo"
+            data-i18n-attrs="alt:header.logoAlt"
           />
-          <span class="products-text"> View Products </span>
+          <span class="products-text" data-i18n="header.productsLink"></span>
         </a>
-        <nav role="navigation" aria-label="Main navigation">
+        <nav role="navigation" data-i18n-attrs="aria-label:common.mainNav">
           <a
             href="basket.html"
             class="basket-link"
-            aria-label="View shopping basket"
+            data-i18n-attrs="aria-label:header.basketAria"
           >
             <img
               src="img/basket-icon.png"
               class="basket-img"
-              alt="Shopping basket icon"
+              data-i18n-attrs="alt:header.basketAlt"
             />
-            <span class="basket-text">View shopping basket</span>
+            <span class="basket-text" data-i18n="header.basketText"></span>
           </a>
         </nav>
+        <div class="lang-switcher">
+          <label for="langSelect"><span data-i18n="header.chooseLanguage"></span></label>
+          <select id="langSelect" onchange="setLanguage(this.value)">
+            <option value="en">English</option>
+            <option value="nl">Nederlands</option>
+            <option value="ja">日本語</option>
+            <option value="vi">Tiếng Việt</option>
+            <option value="fy">Frysk</option>
+          </select>
+        </div>
       </div>
     </header>
     <main id="main-content" role="main">
@@ -39,21 +49,17 @@
           id="slotEmoji"
           class="emoji-display"
           role="img"
-          aria-label="Fruit slot machine display"
+          data-i18n-attrs="aria-label:slot.displayAria"
         >🎰</div>
-        <h1>Slot Machine</h1>
-        <div class="product-desc" aria-label="Product description">
-          Click "Add to Basket" to spin! A random fruit will be selected and
-          added to your basket.
-        </div>
+        <h1 data-i18n="slot.title"></h1>
+        <div class="product-desc" data-i18n="slot.desc" aria-label="Product description"></div>
         <div class="button-container">
           <button
             id="spinAndAdd"
             class="cart-action-btn"
-            aria-label="Spin slot machine and add a random fruit to basket"
-          >
-            Add to Basket
-          </button>
+            data-i18n-attrs="aria-label:slot.addAria"
+            data-i18n="slot.addBtn"
+          ></button>
         </div>
         <div id="slotStatus" class="sr-only" aria-live="polite"></div>
       </div>
@@ -63,6 +69,8 @@
         href="https://www.linkedin.com/in/timlolkema/"
         target="_blank"
         rel="noopener noreferrer"
+        data-i18n-author
+        data-author-name="Tim Lolkema"
       >
         By Tim Lolkema
       </a>
@@ -87,6 +95,10 @@
         let intervalId = null;
         let timeoutId = null;
 
+        function syncButton() {
+          btn.textContent = t("slot.addBtn");
+        }
+
         function stopSpin() {
           if (intervalId) clearInterval(intervalId);
           if (timeoutId) clearTimeout(timeoutId);
@@ -94,20 +106,20 @@
           timeoutId = null;
           spinning = false;
           btn.disabled = false;
-          btn.textContent = "Add to Basket";
+          syncButton();
         }
 
         btn.addEventListener("click", function () {
           if (spinning) return; // prevent double clicks
           if (!keys.length) {
             // Fallback: nothing configured
-            live.textContent = "No fruits available to spin.";
+            live.textContent = t("slot.none");
             return;
           }
 
           spinning = true;
           btn.disabled = true;
-          btn.textContent = "Spinning...";
+          btn.textContent = t("slot.spinning");
 
           // Start cycling through available fruit emojis
           let i = 0;
@@ -129,11 +141,14 @@
             // Slight delay to let the final emoji settle visually
             setTimeout(() => {
               addToBasket(randomKey);
-              live.textContent = `${window.PRODUCTS[randomKey].name} added to basket.`;
+              live.textContent = t("slot.addedLive", { product: productName(randomKey) });
               stopSpin();
             }, 250);
           }, spinDuration);
         });
+
+        // Re-apply translations on load and when language changes externally
+        applyTranslations();
 
         // Cleanup if needed (not strictly necessary on static page)
         window.addEventListener("beforeunload", stopSpin);
