@@ -79,10 +79,28 @@ function renderCheckoutBlendNote() {
   const basket = getBasket();
   if (getBlendFlag() && basket.length) {
     note.style.display = "block";
-    note.textContent = `Smoothie option selected. ${computeBlendSummary(basket)}.`;
+    const summary = computeBlendSummary(basket);
+    // Static blender icon (decorative) + summary text
+    note.innerHTML = `
+      <span class="blend-icon" aria-hidden="true" title="Smoothie selected">
+        <svg class="blender-svg" viewBox="0 0 24 24" width="22" height="22" focusable="false" aria-hidden="true">
+          <rect x="6" y="2" width="12" height="2" fill="#0aa" />
+          <rect x="6" y="4" width="10" height="12" rx="2" ry="2" fill="#e0f7fa" stroke="#0aa" stroke-width="1" />
+          <rect x="16" y="6" width="3" height="8" rx="1.5" ry="1.5" fill="#c8f0f4" stroke="#0aa" stroke-width="1" />
+          <!-- No animation on checkout: rotor group present but not animated -->
+          <g>
+            <circle cx="11" cy="10" r="1.2" fill="#00796b" />
+            <rect x="10.6" y="7.5" width="0.8" height="5" fill="#00796b" />
+            <rect x="8.5" y="9.6" width="5" height="0.8" fill="#00796b" />
+          </g>
+          <rect x="5" y="16" width="14" height="6" rx="2" ry="2" fill="#def2f6" stroke="#0aa" stroke-width="1" />
+          <circle cx="12" cy="19" r="1.6" fill="#0aa" />
+        </svg>
+      </span>
+      <span>Smoothie option selected. ${summary}.</span>`;
   } else {
     note.style.display = "none";
-    note.textContent = "";
+    note.innerHTML = "";
   }
 }
 

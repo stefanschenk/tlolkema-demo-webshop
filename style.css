@@ -376,7 +376,8 @@ footer a {
 }
 /* Set transform origin to center of the SVG for rotation */
 .blender-svg .blade-rotor {
-  transform-origin: 12px 12px;
+  /* Center of the jar contents for the new SVG */
+  transform-origin: 11px 10px;
 }
 /* Animate only when blending is active */
 .blend-row.is-blending .blade-rotor {
