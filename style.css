@@ -353,3 +353,41 @@ footer a {
   color: green;
   margin-top: 1rem;
 }
+
+/* --- Smoothie blender animation --- */
+.blend-row {
+  align-items: center;
+  gap: 0.5rem;
+}
+.blend-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.blend-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.35rem;
+}
+.blender-svg {
+  display: inline-block;
+  vertical-align: middle;
+}
+/* Set transform origin to center of the SVG for rotation */
+.blender-svg .blade-rotor {
+  /* Center of the jar contents for the new SVG */
+  transform-origin: 11px 10px;
+}
+/* Animate only when blending is active */
+.blend-row.is-blending .blade-rotor {
+  animation: bladeSpin 0.9s linear infinite;
+}
+@keyframes bladeSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .blend-row.is-blending .blade-rotor { animation: none; }
+}
