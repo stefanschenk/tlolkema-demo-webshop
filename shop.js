@@ -4,6 +4,9 @@ const PRODUCTS = {
   lemon: { name: "Lemon", emoji: "🍋" },
 };
 
+// Expose for pages that need to iterate available fruits (e.g., slot machine)
+window.PRODUCTS = PRODUCTS;
+
 function getBasket() {
   try {
     const basket = localStorage.getItem("basket");

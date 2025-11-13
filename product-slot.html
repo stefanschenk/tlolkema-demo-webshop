@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fruit Slot Machine - Fruit Shop</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header role="banner">
+      <div class="header-center">
+        <a href="index.html" class="logo" aria-label="Go to homepage">
+          <img
+            src="img/fruit-shop-logo.png"
+            class="logo-img"
+            alt="Fruit Shop Logo"
+          />
+          <span class="products-text"> View Products </span>
+        </a>
+        <nav role="navigation" aria-label="Main navigation">
+          <a
+            href="basket.html"
+            class="basket-link"
+            aria-label="View shopping basket"
+          >
+            <img
+              src="img/basket-icon.png"
+              class="basket-img"
+              alt="Shopping basket icon"
+            />
+            <span class="basket-text">View shopping basket</span>
+          </a>
+        </nav>
+      </div>
+    </header>
+    <main id="main-content" role="main">
+      <div class="content-box">
+        <div
+          id="slotEmoji"
+          class="emoji-display"
+          role="img"
+          aria-label="Fruit slot machine display"
+        >🎰</div>
+        <h1>Slot Machine</h1>
+        <div class="product-desc" aria-label="Product description">
+          Click "Add to Basket" to spin! A random fruit will be selected and
+          added to your basket.
+        </div>
+        <div class="button-container">
+          <button
+            id="spinAndAdd"
+            class="cart-action-btn"
+            aria-label="Spin slot machine and add a random fruit to basket"
+          >
+            Add to Basket
+          </button>
+        </div>
+        <div id="slotStatus" class="sr-only" aria-live="polite"></div>
+      </div>
+    </main>
+    <footer>
+      <a
+        href="https://www.linkedin.com/in/timlolkema/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        By Tim Lolkema
+      </a>
+    </footer>
+    <script src="shop.js"></script>
+    <script>
+      (function () {
+        const btn = document.getElementById("spinAndAdd");
+        const display = document.getElementById("slotEmoji");
+        const live = document.getElementById("slotStatus");
+
+        // Collect available fruits from global PRODUCTS
+        const productEntries = Object.entries(window.PRODUCTS || {});
+        const keys = productEntries.map(([k]) => k);
+        const emojis = productEntries.map(([, v]) => v.emoji);
+
+        function pickRandom(arr) {
+          return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        let spinning = false;
+        let intervalId = null;
+        let timeoutId = null;
+
+        function stopSpin() {
+          if (intervalId) clearInterval(intervalId);
+          if (timeoutId) clearTimeout(timeoutId);
+          intervalId = null;
+          timeoutId = null;
+          spinning = false;
+          btn.disabled = false;
+          btn.textContent = "Add to Basket";
+        }
+
+        btn.addEventListener("click", function () {
+          if (spinning) return; // prevent double clicks
+          if (!keys.length) {
+            // Fallback: nothing configured
+            live.textContent = "No fruits available to spin.";
+            return;
+          }
+
+          spinning = true;
+          btn.disabled = true;
+          btn.textContent = "Spinning...";
+
+          // Start cycling through available fruit emojis
+          let i = 0;
+          display.style.transform = "scale(1)";
+          intervalId = setInterval(() => {
+            display.textContent = emojis[i % emojis.length];
+            // subtle pulse effect
+            display.style.transform = i % 2 === 0 ? "scale(1.08)" : "scale(1)";
+            i++;
+          }, 90);
+
+          // After a short delay, pick a random fruit and add it to basket
+          const spinDuration = 1300 + Math.floor(Math.random() * 400); // 1.3-1.7s
+          timeoutId = setTimeout(() => {
+            const randomKey = pickRandom(keys);
+            const emoji = window.PRODUCTS[randomKey].emoji;
+            display.textContent = emoji;
+            display.style.transform = "scale(1.2)";
+            // Slight delay to let the final emoji settle visually
+            setTimeout(() => {
+              addToBasket(randomKey);
+              live.textContent = `${window.PRODUCTS[randomKey].name} added to basket.`;
+              stopSpin();
+            }, 250);
+          }, spinDuration);
+        });
+
+        // Cleanup if needed (not strictly necessary on static page)
+        window.addEventListener("beforeunload", stopSpin);
+      })();
+    </script>
+    <style>
+      /* Screen-reader-only utility */
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+    </style>
+  </body>
+</html>
