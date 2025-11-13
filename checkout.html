@@ -36,6 +36,7 @@
     <main id="main-content" role="main">
       <div class="content-box">
         <h1>Checkout</h1>
+        <div id="blendCheckoutNote" class="blend-summary" role="status" aria-live="polite" style="display: none;"></div>
         <form id="checkoutForm" role="form" aria-label="Checkout form">
           <div class="form-group">
             <label for="name">Name:</label>
@@ -84,12 +85,14 @@
     <script src="shop.js"></script>
     <script>
       renderBasket();
+      renderCheckoutBlendNote();
       document.getElementById("checkoutForm").onsubmit = function (e) {
         e.preventDefault();
         document.getElementById("successMsg").style.display = "block";
         document.getElementById("checkoutForm").style.display = "none";
         clearBasket();
         renderBasket();
+        renderCheckoutBlendNote();
       };
     </script>
   </body>

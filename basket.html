@@ -41,6 +41,16 @@
           id="basketList"
           aria-label="Shopping basket items"
         ></ul>
+
+        <!-- Smoothie option -->
+        <div id="blendRow" class="blend-row" role="group" aria-label="Smoothie option" style="display: none;">
+          <label for="blendSmoothie" class="blend-label">
+            <input type="checkbox" id="blendSmoothie" aria-label="Blend selected fruits into a smoothie" />
+            Blend selected fruits into a smoothie
+          </label>
+          <div id="blendSummary" class="blend-summary" aria-live="polite"></div>
+        </div>
+
         <div class="cart-buttons-row" role="group" aria-label="Basket actions">
           <button id="clearBasket" aria-label="Clear all items from basket">
             Clear Basket
@@ -67,9 +77,11 @@
     <script src="shop.js"></script>
     <script>
       renderBasket();
+      renderBlendUI();
       document.getElementById("clearBasket").onclick = function () {
         clearBasket();
         renderBasket();
+        renderBlendUI();
       };
     </script>
   </body>
