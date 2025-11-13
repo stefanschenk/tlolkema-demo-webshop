@@ -53,18 +53,21 @@ function renderBlendUI() {
     row.style.display = "none";
     checkbox.checked = false;
     summary.textContent = "";
+    row.classList.remove("is-blending");
     return;
   }
 
   row.style.display = "flex";
   checkbox.checked = getBlendFlag();
   summary.textContent = checkbox.checked ? computeBlendSummary(basket) : "";
+  row.classList.toggle("is-blending", checkbox.checked);
 
   // Ensure change handler is attached only once
   if (!checkbox._blendAttached) {
     checkbox.addEventListener("change", function () {
       setBlendFlag(checkbox.checked);
       summary.textContent = checkbox.checked ? computeBlendSummary(getBasket()) : "";
+      row.classList.toggle("is-blending", checkbox.checked);
     });
     checkbox._blendAttached = true;
   }
