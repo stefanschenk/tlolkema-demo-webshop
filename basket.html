@@ -6,48 +6,58 @@
     <title>Shopping Basket - Fruit Shop</title>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
+  <body data-i18n-title="brand.titleBasket">
     <header role="banner">
       <div class="header-center">
-        <a href="index.html" class="logo" aria-label="Go to homepage">
+        <a href="index.html" class="logo" data-i18n-attrs="aria-label:header.homeAria">
           <img
             src="img/fruit-shop-logo.png"
             class="logo-img"
-            alt="Fruit Shop Logo"
+            data-i18n-attrs="alt:header.logoAlt"
           />
-          <span class="products-text"> View Products </span>
+          <span class="products-text" data-i18n="header.productsLink"></span>
         </a>
-        <nav role="navigation" aria-label="Main navigation">
+        <nav role="navigation" data-i18n-attrs="aria-label:common.mainNav">
           <a
             href="basket.html"
             class="basket-link"
-            aria-label="View shopping basket"
+            data-i18n-attrs="aria-label:header.basketAria"
           >
             <img
               src="img/basket-icon.png"
               class="basket-img"
-              alt="Shopping basket icon"
+              data-i18n-attrs="alt:header.basketAlt"
             />
-            <span class="basket-text">View shopping basket</span>
+            <span class="basket-text" data-i18n="header.basketText"></span>
           </a>
         </nav>
+        <div class="lang-switcher">
+          <label for="langSelect"><span data-i18n="header.chooseLanguage"></span></label>
+          <select id="langSelect" onchange="setLanguage(this.value)">
+            <option value="en">English</option>
+            <option value="nl">Nederlands</option>
+            <option value="ja">日本語</option>
+            <option value="vi">Tiếng Việt</option>
+            <option value="fy">Frysk</option>
+          </select>
+        </div>
       </div>
     </header>
     <main id="main-content" role="main">
       <div class="content-box">
-        <h1>Your Shopping Basket</h1>
+        <h1 data-i18n="basket.title"></h1>
         <ul
           class="order-list"
           id="basketList"
-          aria-label="Shopping basket items"
+          data-i18n-attrs="aria-label:basket.listAria"
         ></ul>
 
         <!-- Smoothie option -->
-        <div id="blendRow" class="blend-row" role="group" aria-label="Smoothie option" style="display: none;">
+        <div id="blendRow" class="blend-row" role="group" data-i18n-attrs="aria-label:blend.ariaGroup" style="display: none;">
           <label for="blendSmoothie" class="blend-label">
-            <input type="checkbox" id="blendSmoothie" aria-label="Blend selected fruits into a smoothie" />
-            Blend selected fruits into a smoothie
-            <span class="blend-icon" aria-hidden="true" title="Blending">
+            <input type="checkbox" id="blendSmoothie" data-i18n-attrs="aria-label:blend.optionLabel" />
+            <span data-i18n="blend.optionLabel"></span>
+            <span class="blend-icon" aria-hidden="true" data-i18n-attrs="title:blend.blendingTitle">
               <svg class="blender-svg" viewBox="0 0 24 24" width="28" height="28" focusable="false" aria-hidden="true">
                 <!-- Lid -->
                 <rect x="6" y="2" width="12" height="2" fill="#0aa" />
@@ -70,16 +80,14 @@
           <div id="blendSummary" class="blend-summary" aria-live="polite"></div>
         </div>
 
-        <div class="cart-buttons-row" role="group" aria-label="Basket actions">
-          <button id="clearBasket" aria-label="Clear all items from basket">
-            Clear Basket
-          </button>
+        <div class="cart-buttons-row" role="group" data-i18n-attrs="aria-label:basket.actionsAria">
+          <button id="clearBasket" data-i18n-attrs="aria-label:basket.clear" data-i18n="basket.clear"></button>
           <a
             href="checkout.html"
             id="checkoutLink"
-            aria-label="Proceed to checkout"
+            data-i18n-attrs="aria-label:basket.checkout"
           >
-            <button id="checkoutBtn">Checkout</button>
+            <button id="checkoutBtn" data-i18n="basket.checkout"></button>
           </a>
         </div>
       </div>
@@ -89,6 +97,8 @@
         href="https://www.linkedin.com/in/timlolkema/"
         target="_blank"
         rel="noopener noreferrer"
+        data-i18n-author
+        data-author-name="Tim Lolkema"
       >
         By Tim Lolkema
       </a>
@@ -97,6 +107,7 @@
     <script>
       renderBasket();
       renderBlendUI();
+      applyTranslations();
       document.getElementById("clearBasket").onclick = function () {
         clearBasket();
         renderBasket();

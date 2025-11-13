@@ -6,71 +6,78 @@
     <title>Checkout - Complete Your Order - Fruit Shop</title>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
+  <body data-i18n-title="brand.titleCheckout">
     <header role="banner">
       <div class="header-center">
-        <a href="index.html" class="logo" aria-label="Go to homepage">
+        <a href="index.html" class="logo" data-i18n-attrs="aria-label:header.homeAria">
           <img
             src="img/fruit-shop-logo.png"
             class="logo-img"
-            alt="Fruit Shop Logo"
+            data-i18n-attrs="alt:header.logoAlt"
           />
-          <span class="products-text"> View Products </span>
+          <span class="products-text" data-i18n="header.productsLink"></span>
         </a>
-        <nav role="navigation" aria-label="Main navigation">
+        <nav role="navigation" data-i18n-attrs="aria-label:common.mainNav">
           <a
             href="basket.html"
             class="basket-link"
-            aria-label="View shopping basket"
+            data-i18n-attrs="aria-label:header.basketAria"
           >
             <img
               src="img/basket-icon.png"
               class="basket-img"
-              alt="Shopping basket icon"
+              data-i18n-attrs="alt:header.basketAlt"
             />
-            <span class="basket-text">View shopping basket</span>
+            <span class="basket-text" data-i18n="header.basketText"></span>
           </a>
         </nav>
+        <div class="lang-switcher">
+          <label for="langSelect"><span data-i18n="header.chooseLanguage"></span></label>
+          <select id="langSelect" onchange="setLanguage(this.value)">
+            <option value="en">English</option>
+            <option value="nl">Nederlands</option>
+            <option value="ja">日本語</option>
+            <option value="vi">Tiếng Việt</option>
+            <option value="fy">Frysk</option>
+          </select>
+        </div>
       </div>
     </header>
     <main id="main-content" role="main">
       <div class="content-box">
-        <h1>Checkout</h1>
+        <h1 data-i18n="checkout.title"></h1>
         <div id="blendCheckoutNote" class="blend-summary" role="status" aria-live="polite" style="display: none;"></div>
-        <form id="checkoutForm" role="form" aria-label="Checkout form">
+        <form id="checkoutForm" role="form" data-i18n-attrs="aria-label:checkout.formAria">
           <div class="form-group">
-            <label for="name">Name:</label>
+            <label for="name" data-i18n="checkout.name"></label>
             <input
               type="text"
               id="name"
               name="name"
               required
               aria-required="true"
-              aria-label="Enter your full name"
+              data-i18n-attrs="aria-label:checkout.nameAria"
             />
           </div>
           <div class="form-group">
-            <label for="address">Address:</label>
+            <label for="address" data-i18n="checkout.address"></label>
             <input
               type="text"
               id="address"
               name="address"
               required
               aria-required="true"
-              aria-label="Enter your delivery address"
+              data-i18n-attrs="aria-label:checkout.addressAria"
             />
           </div>
           <button
             type="submit"
             class="cart-action-btn"
-            aria-label="Place order"
-          >
-            Place Order
-          </button>
+            data-i18n-attrs="aria-label:checkout.placeAria"
+            data-i18n="checkout.placeOrder"
+          ></button>
         </form>
-        <div id="successMsg" role="alert" aria-live="polite">
-          Thank you for your order!
-        </div>
+        <div id="successMsg" role="alert" aria-live="polite" data-i18n="checkout.success"></div>
       </div>
     </main>
     <footer>
@@ -78,6 +85,8 @@
         href="https://www.linkedin.com/in/timlolkema/"
         target="_blank"
         rel="noopener noreferrer"
+        data-i18n-author
+        data-author-name="Tim Lolkema"
       >
         By Tim Lolkema
       </a>
@@ -86,6 +95,8 @@
     <script>
       renderBasket();
       renderCheckoutBlendNote();
+      applyTranslations();
+      document.getElementById("successMsg").style.display = "none";
       document.getElementById("checkoutForm").onsubmit = function (e) {
         e.preventDefault();
         document.getElementById("successMsg").style.display = "block";

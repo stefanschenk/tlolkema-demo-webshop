@@ -6,48 +6,56 @@
     <title>Fresh Apple - Fruit Shop</title>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
+  <body data-i18n-title="brand.titleApple">
     <header role="banner">
       <div class="header-center">
-        <a href="index.html" class="logo" aria-label="Go to homepage">
+        <a href="index.html" class="logo" data-i18n-attrs="aria-label:header.homeAria">
           <img
             src="img/fruit-shop-logo.png"
             class="logo-img"
-            alt="Fruit Shop Logo"
+            data-i18n-attrs="alt:header.logoAlt"
           />
-          <span class="products-text"> View Products </span>
+          <span class="products-text" data-i18n="header.productsLink"></span>
         </a>
-        <nav role="navigation" aria-label="Main navigation">
+        <nav role="navigation" data-i18n-attrs="aria-label:common.mainNav">
           <a
             href="basket.html"
             class="basket-link"
-            aria-label="View shopping basket"
+            data-i18n-attrs="aria-label:header.basketAria"
           >
             <img
               src="img/basket-icon.png"
               class="basket-img"
-              alt="Shopping basket icon"
+              data-i18n-attrs="alt:header.basketAlt"
             />
-            <span class="basket-text">View shopping basket</span>
+            <span class="basket-text" data-i18n="header.basketText"></span>
           </a>
         </nav>
+        <div class="lang-switcher">
+          <label for="langSelect"><span data-i18n="header.chooseLanguage"></span></label>
+          <select id="langSelect" onchange="setLanguage(this.value)">
+            <option value="en">English</option>
+            <option value="nl">Nederlands</option>
+            <option value="ja">日本語</option>
+            <option value="vi">Tiếng Việt</option>
+            <option value="fy">Frysk</option>
+          </select>
+        </div>
       </div>
     </header>
     <main id="main-content" role="main">
       <div class="content-box">
-        <div class="emoji-display" role="img" aria-label="Apple emoji">🍏</div>
-        <h1>Apple</h1>
-        <div class="product-desc" aria-label="Product description">
-          Keeps the doctor away (unless you throw it at them).
-        </div>
+        <div class="emoji-display" role="img" data-i18n-attrs="aria-label:products.apple">🍏</div>
+        <h1 data-i18n="products.apple"></h1>
+        <div class="product-desc" data-i18n="product.appleDesc" aria-label="Product description"></div>
         <div class="button-container">
           <button
             id="addToBasket"
             class="cart-action-btn"
-            aria-label="Add Apple to basket"
-          >
-            Add to Basket
-          </button>
+            data-i18n-attrs="aria-label:product.addAria"
+            data-i18n-vars='{"product":"i18n:products.apple"}'
+            data-i18n="product.addBtn"
+          ></button>
         </div>
       </div>
     </main>
@@ -56,6 +64,8 @@
         href="https://www.linkedin.com/in/timlolkema/"
         target="_blank"
         rel="noopener noreferrer"
+        data-i18n-author
+        data-author-name="Tim Lolkema"
       >
         By Tim Lolkema
       </a>
@@ -65,6 +75,7 @@
       document.getElementById("addToBasket").onclick = function () {
         addToBasket("apple");
       };
+      applyTranslations();
     </script>
   </body>
 </html>
